@@ -4,35 +4,45 @@ package com.github.gekomad.nonemptystring
   * NonEmptyString
   * https://github.com/gekomad/non-empty-string
   * @author Giuseppe Cannella
-  * @since 0.0.1
   */
 object NonEmptyString {
-  def apply(s: String): Option[NonEmptyString] = if (s.isEmpty) None else Some(NonEmptyString(s.head, s.tail))
+  import java.lang.Character._
 
-  def valueOf(b: Boolean) = NonEmptyString(String.valueOf(b)).get
-  def valueOf(b: Char)    = NonEmptyString(String.valueOf(b)).get
-  def valueOf(d: Double)  = NonEmptyString(String.valueOf(d)).get
-  def valueOf(f: Float)   = NonEmptyString(String.valueOf(f)).get
-  def valueOf(i: Int)     = NonEmptyString(String.valueOf(i)).get
-  def valueOf(l: Long)    = NonEmptyString(String.valueOf(l)).get
+  def apply(s: String): Option[NonEmptyString] = if (s.isEmpty) None else Some(new NonEmptyString(s))
+
+  def apply(s: String, isBlank: Boolean): Option[NonEmptyString] = isBlank match {
+    case true
+        if s
+          .replaceAll(s"""[$SPACE_SEPARATOR, $LINE_SEPARATOR, $PARAGRAPH_SEPARATOR,${'\t'} , ${'\n'}, ${'\u000B'},
+                          |${'\f'}, ${'\r'}, ${'\u001C'}, ${'\u001D'}, ${'\u001E'}, ${'\u001F'}]""".stripMargin, "")
+          .isEmpty =>
+      None
+
+    case _ => apply(s)
+  }
+
+  def valueOf(b: Boolean): NonEmptyString = NonEmptyString(String.valueOf(b)).get
+  def valueOf(b: Char): NonEmptyString    = NonEmptyString(String.valueOf(b)).get
+  def valueOf(d: Double): NonEmptyString  = NonEmptyString(String.valueOf(d)).get
+  def valueOf(f: Float): NonEmptyString   = NonEmptyString(String.valueOf(f)).get
+  def valueOf(i: Int): NonEmptyString     = NonEmptyString(String.valueOf(i)).get
+  def valueOf(l: Long): NonEmptyString    = NonEmptyString(String.valueOf(l)).get
 }
 
-final case class NonEmptyString(head: Char, tail: String) {
-  private val string = s"$head$tail"
-
+class NonEmptyString private (private val string: String) {
   override def toString: String = string
 
-  @inline def charAt(index: Int)                              = string.charAt(index)
-  @inline def codePointAt(index: Int): Int                    = string.codePointAt(index)
-  @inline def codePointCount(beginIndex: Int, endIndex: Int)  = string.codePointCount(beginIndex, endIndex)
-  @inline def compareTo(anotherString: String): Int           = string.compareTo(anotherString)
-  @inline def compareTo(aNonEmptyString: NonEmptyString): Int = string.compareTo(aNonEmptyString.string)
-  @inline def compareToIgnoreCase(str: String): Int           = string.compareToIgnoreCase(str)
+  @inline def charAt(index: Int): Char                            = string.charAt(index)
+  @inline def codePointAt(index: Int): Int                        = string.codePointAt(index)
+  @inline def codePointCount(beginIndex: Int, endIndex: Int): Int = string.codePointCount(beginIndex, endIndex)
+  @inline def compareTo(anotherString: String): Int               = string.compareTo(anotherString)
+  @inline def compareTo(aNonEmptyString: NonEmptyString): Int     = string.compareTo(aNonEmptyString.string)
+  @inline def compareToIgnoreCase(str: String): Int               = string.compareToIgnoreCase(str)
   @inline def compareToIgnoreCase(aNonEmptyString: NonEmptyString): Int =
     string.compareToIgnoreCase(aNonEmptyString.string)
-  @inline def concat(str: String): NonEmptyString = NonEmptyString(head, s"$tail$str")
+  @inline def concat(str: String): NonEmptyString = NonEmptyString(s"$string$str").get
   @inline def concat(aNonEmptyString: NonEmptyString): NonEmptyString =
-    NonEmptyString(head, s"$tail${aNonEmptyString.string}")
+    NonEmptyString(s"string${aNonEmptyString.string}").get
   @inline def contains(cs: CharSequence): Boolean       = string.contains(cs)
   @inline def contentEquals(sc: CharSequence): Boolean  = string.contentEquals(sc)
   @inline def contentEquals(sb: StringBuffer): Boolean  = string.contentEquals(sb)
@@ -53,7 +63,7 @@ final case class NonEmptyString(head: Char, tail: String) {
   @inline def equalsIgnoreCase(aNonEmptyString: NonEmptyString): Boolean =
     aNonEmptyString.string.toLowerCase == this.string.toLowerCase
 
-  @inline def getBytes(): Array[Byte]                                  = string.getBytes()
+  @inline def getBytes: Array[Byte]                                    = string.getBytes()
   @inline def getBytes(charset: java.nio.charset.Charset): Array[Byte] = string.getBytes(charset)
   @inline def getBytes(charsetName: String): Array[Byte]               = string.getBytes(charsetName)
   @inline def indexOf(ch: Int): Int                                    = string.indexOf(ch)
@@ -61,7 +71,7 @@ final case class NonEmptyString(head: Char, tail: String) {
   @inline def indexOf(str: String, fromIndex: Int): Int                = string.indexOf(str, fromIndex)
   @inline def indexOf(aNonEmptyString: NonEmptyString, fromIndex: Int): Int =
     string.indexOf(aNonEmptyString.string, fromIndex)
-  @inline def isEmpty(): Boolean                            = string.isEmpty()
+  @inline def isEmpty: Boolean                              = string.isEmpty
   @inline def lastIndexOf(ch: Int): Int                     = string.lastIndexOf(ch)
   @inline def lastIndexOf(ch: Int, fromIndex: Int): Int     = string.lastIndexOf(ch, fromIndex)
   @inline def lastIndexOf(str: String): Int                 = string.lastIndexOf(str)
@@ -75,9 +85,9 @@ final case class NonEmptyString(head: Char, tail: String) {
   @inline def matches(regex: String): Boolean = string.matches(regex)
   @inline def offsetByCodePoints(index: Int, codePointOffset: Int): Int =
     string.offsetByCodePoints(index, codePointOffset)
-  @inline def regionMatches(ignoreCase: Boolean, toffset: Int, other: String, ooffset: Int, len: Int) =
+  @inline def regionMatches(ignoreCase: Boolean, toffset: Int, other: String, ooffset: Int, len: Int): Boolean =
     string.regionMatches(ignoreCase, toffset, other, ooffset, len)
-  @inline def regionMatches(toffset: Int, other: String, ooffset: Int, len: Int) =
+  @inline def regionMatches(toffset: Int, other: String, ooffset: Int, len: Int): Boolean =
     string.regionMatches(toffset, other, ooffset, len)
 
   @inline def replace(oldChar: Char, newChar: Char): NonEmptyString =
@@ -106,14 +116,14 @@ final case class NonEmptyString(head: Char, tail: String) {
   @inline def substring(beginIndex: Int, endIndex: Int): Option[NonEmptyString] =
     NonEmptyString(string.substring(beginIndex, endIndex))
 
-  @inline def toCharArray(): Array[Char] = string.toCharArray()
+  @inline def toCharArray: Array[Char] = string.toCharArray
 
-  @inline def toLowerCase()                         = NonEmptyString(string.toLowerCase()).get
-  @inline def toLowerCase(locale: java.util.Locale) = NonEmptyString(string.toLowerCase(locale)).get
+  @inline def toLowerCase: NonEmptyString                           = NonEmptyString(string.toLowerCase()).get
+  @inline def toLowerCase(locale: java.util.Locale): NonEmptyString = NonEmptyString(string.toLowerCase(locale)).get
 
-  @inline def toUpperCase()                         = NonEmptyString(string.toUpperCase()).get
-  @inline def toUpperCase(locale: java.util.Locale) = NonEmptyString(string.toUpperCase(locale)).get
+  @inline def toUpperCase: NonEmptyString                           = NonEmptyString(string.toUpperCase()).get
+  @inline def toUpperCase(locale: java.util.Locale): NonEmptyString = NonEmptyString(string.toUpperCase(locale)).get
 
-  @inline def trim() = NonEmptyString(string.trim()).get
+  @inline def trim(): NonEmptyString = NonEmptyString(string.trim()).get
 
 }
