@@ -18,13 +18,15 @@ val a: Option[NonEmptyString] = NonEmptyString(" ")
 a.map(s => assert(s.toString == " "))  
 ``` 
 #### Instantiate using isBlank
+
+check 
 ```scala
-val a: Option[NonEmptyString] = NonEmptyString(" ", isBlank = true)  
+val a: Option[NonBlankString] = NonBlankString(" ")  
 assert(a == None)  
 ``` 
 
 ```scala
-val a: Option[NonEmptyString] = NonEmptyString(" \n", isBlank = true)  
+val a: Option[NonBlankString] = NonBlankString(" \n")  
 assert(a == None)  
 ```   
 

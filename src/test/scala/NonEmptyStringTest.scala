@@ -1,4 +1,4 @@
-import com.github.gekomad.nonemptystring.NonEmptyString
+import com.github.gekomad.NonEmptyString.nonVoidString.{NonEmptyString, NonVoidString}
 import org.scalatest.funsuite.AnyFunSuite
 
 class NonEmptyStringTest extends AnyFunSuite {
@@ -24,9 +24,16 @@ class NonEmptyStringTest extends AnyFunSuite {
     assert(a == b)
   }
 
+  test("trim test") {
+    val a: Option[NonEmptyString] = NonEmptyString(" ")
+    assert(a == NonEmptyString(" "))
+    val b: Option[NonVoidString] = a.flatMap(a => a.trim)
+    assert(b == None)
+  }
+
   test("concat 1 test") {
     val a: Option[NonEmptyString] = NonEmptyString("foo")
-    val b: Option[NonEmptyString] = a.map(_.concat("bar"))
+    val b                         = a.map(a => a.concat("bar"))
     assert(b == NonEmptyString("foobar"))
   }
 
@@ -78,13 +85,13 @@ class NonEmptyStringTest extends AnyFunSuite {
 
   test("replace test") {
     val a = NonEmptyString("bar")
-    assert(a.map(_.replace('b', 'a')) == NonEmptyString("aar"))
+    assert(a.flatMap(_.replace('b', 'a')) == NonEmptyString("aar"))
   }
 
   test("substring test") {
     val a = NonEmptyString("bar")
 
-    assert(a.map(_.substring(1)) == Some(NonEmptyString("ar")))
+    assert(a.flatMap(_.substring(1)) == NonEmptyString("ar"))
     assert(a.flatMap(_.substring(3)) == None)
   }
 
