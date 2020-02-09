@@ -1,5 +1,7 @@
-# NonEmptyString type for scala   
-#### To use the library copy `NoneEmptyString.scala` to your project    
+# NonEmptyString type for scala  
+ 
+#### To use the library copy [NoneEmptyString.scala](https://github.com/gekomad/non-empty-string/blob/master/src/main/scala/com/github/gekomad/nonemptystring/NonEmptyString.scala)  to your project.
+
 #### Instantiate  
 ```scala 
 val a: Option[NonEmptyString] = NonEmptyString("foo")  
