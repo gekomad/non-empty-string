@@ -1,4 +1,4 @@
-# Non-empty-string   
+# NonEmptyString type for scala   
 #### To use the library copy `NoneEmptyString.scala` to your project    
 #### Instantiate  
 ```scala 
