@@ -18,8 +18,7 @@ val a: Option[NonEmptyString] = NonEmptyString(" ")
 a.map(s => assert(s.toString == " "))  
 ``` 
 #### Instantiate using isBlank
-
-check 
+ 
 ```scala
 val a: Option[NonBlankString] = NonBlankString(" ")  
 assert(a == None)  
@@ -30,7 +29,7 @@ val a: Option[NonBlankString] = NonBlankString(" \n")
 assert(a == None)  
 ```   
 
-#### Compare NonEmptyString and NonEmptyString  
+#### Compare NonEmptyString with NonEmptyString  
   
 ```scala  
 val a = for {  
@@ -39,7 +38,7 @@ val a = for {
 } yield a.equalsIgnoreCase(b)  
 assert(a == Some(true))  
 ```  
-#### Compare NonEmptyString and String  
+#### Compare NonEmptyString with String  
 ```scala
 val a: Option[NonEmptyString] = NonEmptyString("foo")  
 a.map { s =>  
