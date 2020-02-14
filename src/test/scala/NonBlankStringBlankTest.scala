@@ -15,7 +15,7 @@ class NonBlankStringBlankTest extends AnyFunSuite {
 
   test("concat 1 test") {
     val a: Option[NonBlankString] = NonBlankString("foo")
-    val b= a.map(_.concat(""))
+    val b                         = a.map(_.concat(""))
     assert(b == NonBlankString("foo"))
   }
 
@@ -61,8 +61,12 @@ class NonBlankStringBlankTest extends AnyFunSuite {
   }
 
   test("replace test") {
-    val a = NonBlankString("bar")
-    assert(a.flatMap(_.replace('b', 'a')) == NonBlankString("aar"))
+    val bar = NonBlankString("bar")
+    assert(bar.flatMap(_.replace('b', 'a')) == NonBlankString("aar"))
+
+    val a = NonBlankString("a")
+    assert(a.flatMap(_.replace("a", " ")) == None)
+
   }
 
   test("substring test") {

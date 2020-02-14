@@ -3,15 +3,15 @@ package nonVoidString
 import java.lang.Character._
 
 /**
- * NonEmptyString
- * https://github.com/gekomad/non-empty-string
- * @author Giuseppe Cannella
- */
+  * NonEmptyString
+  * https://github.com/gekomad/non-empty-string
+  * @author Giuseppe Cannella
+  */
 object NonBlankString {
   def apply(s: String): Option[NonBlankString] =
     if (s.replaceAll(s"""[$SPACE_SEPARATOR, $LINE_SEPARATOR, $PARAGRAPH_SEPARATOR,${'\t'} , ${'\n'}, ${'\u000B'},
                         |${'\f'}, ${'\r'}, ${'\u001C'}, ${'\u001D'}, ${'\u001E'}, ${'\u001F'}]""".stripMargin, "")
-      .isEmpty)
+          .isEmpty)
       None
     else Some(new NonBlankString(s))
 
@@ -28,8 +28,8 @@ object NonEmptyString {
   def valueOf(l: Long): NonEmptyString    = new NonEmptyString(String.valueOf(l))
 }
 
-class NonEmptyString private (private val string: String) extends NonVoidString(string, false)
-class NonBlankString private (private val string: String) extends NonVoidString(string, true)
+class NonEmptyString private (private val string: String) extends NonVoidString(string, checkEmpty = true)
+class NonBlankString private (private val string: String) extends NonVoidString(string, checkEmpty = false)
 
 class NonVoidString private[nonVoidString] (private val string: String, private val checkEmpty: Boolean) {
   override def toString: String = string

@@ -74,18 +74,19 @@ class NonEmptyStringTest extends AnyFunSuite {
   }
 
   test("equalsIgnoreCase test") {
-
     val a = for {
       a <- NonEmptyString("f")
       b <- NonEmptyString("F")
     } yield a.equalsIgnoreCase(b)
-
     assert(a == Some(true))
   }
 
   test("replace test") {
-    val a = NonEmptyString("bar")
-    assert(a.flatMap(_.replace('b', 'a')) == NonEmptyString("aar"))
+    val bar = NonEmptyString("bar")
+    assert(bar.flatMap(_.replace('b', 'a')) == NonEmptyString("aar"))
+
+    val a = NonEmptyString("a")
+    assert(a.flatMap(_.replace("a", " ")) == NonEmptyString(" "))
   }
 
   test("substring test") {
