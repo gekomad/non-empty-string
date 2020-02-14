@@ -1,8 +1,8 @@
-# NonEmptyString type for scala  
+# NonEmptyString and NonBlankString type for scala  
  
 #### To use the library copy [NoneEmptyString.scala](https://github.com/gekomad/non-empty-string/blob/master/src/main/scala/com/github/gekomad/nonemptystring/NonEmptyString.scala)  to your project.
 
-#### Instantiate  
+#### NonEmptyString  
 ```scala 
 val a: Option[NonEmptyString] = NonEmptyString("foo")  
 a.map(s => assert(s.toString == "foo"))  
@@ -17,7 +17,7 @@ assert(a == None)
 val a: Option[NonEmptyString] = NonEmptyString(" ")  
 a.map(s => assert(s.toString == " "))  
 ``` 
-#### Instantiate using isBlank
+#### NonBlankString
  
 ```scala
 val a: Option[NonBlankString] = NonBlankString(" ")  
@@ -29,15 +29,6 @@ val a: Option[NonBlankString] = NonBlankString(" \n")
 assert(a == None)  
 ```   
 
-#### Compare NonEmptyString with NonEmptyString  
-  
-```scala  
-val a = for {  
-  a <- NonEmptyString("f")
-  b <- NonEmptyString("F")
-} yield a.equalsIgnoreCase(b)  
-assert(a == Some(true))  
-```  
 #### Compare NonEmptyString with String  
 ```scala
 val a: Option[NonEmptyString] = NonEmptyString("foo")  
