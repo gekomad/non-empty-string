@@ -1,4 +1,4 @@
-import com.github.gekomad.NonEmptyString.nonVoidString.{NonEmptyString, NonVoidString}
+import com.github.gekomad.nonemptystring.nonVoidString.{NonEmptyString, NonVoidString}
 import org.scalatest.funsuite.AnyFunSuite
 
 class NonEmptyStringTest extends AnyFunSuite {
@@ -10,7 +10,7 @@ class NonEmptyStringTest extends AnyFunSuite {
 
   test("instantiate test 1") {
     val a: Option[NonEmptyString] = NonEmptyString("")
-    assert(a == None)
+    assert(a.isEmpty)
     val b: Option[NonEmptyString] = NonEmptyString(" ")
     b.map { s =>
       assert(s.toString == " ")
@@ -28,7 +28,7 @@ class NonEmptyStringTest extends AnyFunSuite {
     val a: Option[NonEmptyString] = NonEmptyString(" ")
     assert(a == NonEmptyString(" "))
     val b: Option[NonVoidString] = a.flatMap(a => a.trim)
-    assert(b == None)
+    assert(b.isEmpty)
   }
 
   test("concat 1 test") {
@@ -52,7 +52,7 @@ class NonEmptyStringTest extends AnyFunSuite {
   test("equal 5 test") {
     val a = NonEmptyString("foo")
     val b = NonEmptyString("FOO")
-    assert(a.equals(b) == false)
+    assert(!a.equals(b))
   }
 
   test("equal 7 test") {
@@ -60,7 +60,7 @@ class NonEmptyStringTest extends AnyFunSuite {
     val b                         = "foo"
     a.map { s =>
       assert(s == b)
-      assert(!(s != b))
+      assert(s == b)
     }
   }
 
@@ -70,7 +70,7 @@ class NonEmptyStringTest extends AnyFunSuite {
       b <- NonEmptyString("F")
     } yield a.compareTo(b)
 
-    assert(a == Some(32))
+    assert(a.contains(32))
   }
 
   test("equalsIgnoreCase test") {
@@ -78,7 +78,8 @@ class NonEmptyStringTest extends AnyFunSuite {
       a <- NonEmptyString("f")
       b <- NonEmptyString("F")
     } yield a.equalsIgnoreCase(b)
-    assert(a == Some(true))
+
+    assert(a.contains(true))
   }
 
   test("replace test") {
@@ -93,7 +94,7 @@ class NonEmptyStringTest extends AnyFunSuite {
     val a = NonEmptyString("bar")
 
     assert(a.flatMap(_.substring(1)) == NonEmptyString("ar"))
-    assert(a.flatMap(_.substring(3)) == None)
+    assert(a.flatMap(_.substring(3)).isEmpty)
   }
 
   test("value of test") {

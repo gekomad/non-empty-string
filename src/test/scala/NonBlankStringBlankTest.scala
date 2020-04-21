@@ -1,16 +1,16 @@
-import com.github.gekomad.NonEmptyString.nonVoidString.{NonBlankString, NonEmptyString}
+import com.github.gekomad.nonemptystring.nonVoidString.{NonBlankString, NonEmptyString}
 import org.scalatest.funsuite.AnyFunSuite
 
 class NonBlankStringBlankTest extends AnyFunSuite {
 
   test("instantiate test 1") {
     val a: Option[NonBlankString] = NonBlankString(" ")
-    assert(a == None)
+    assert(a.isEmpty)
   }
 
   test("instantiate test 2") {
     val a: Option[NonBlankString] = NonBlankString(" \n")
-    assert(a == None)
+    assert(a.isEmpty)
   }
 
   test("concat 1 test") {
@@ -36,7 +36,7 @@ class NonBlankStringBlankTest extends AnyFunSuite {
     val b = "foo"
     a.map { s =>
       assert(s == b)
-      assert(!(s != b))
+      assert(s == b)
     }
   }
 
@@ -47,7 +47,7 @@ class NonBlankStringBlankTest extends AnyFunSuite {
       b <- NonBlankString("F")
     } yield a.compareTo(b)
 
-    assert(a == Some(32))
+    assert(a.contains(32))
   }
 
   test("equalsIgnoreCase test") {
@@ -57,7 +57,7 @@ class NonBlankStringBlankTest extends AnyFunSuite {
       b <- NonBlankString("F")
     } yield a.equalsIgnoreCase(b)
 
-    assert(a == Some(true))
+    assert(a.contains(true))
   }
 
   test("replace test") {
@@ -65,15 +65,15 @@ class NonBlankStringBlankTest extends AnyFunSuite {
     assert(bar.flatMap(_.replace('b', 'a')) == NonBlankString("aar"))
 
     val a = NonBlankString("a")
-    assert(a.flatMap(_.replace("a", " ")) == None)
+    assert(a.flatMap(_.replace("a", " ")).isEmpty)
 
   }
 
   test("substring test") {
     val a = NonBlankString("bar")
 
-    assert(a.map(_.substring(1)) == Some(NonBlankString("ar")))
-    assert(a.flatMap(_.substring(3)) == None)
+    assert(a.map(_.substring(1)).contains(NonBlankString("ar")))
+    assert(a.flatMap(_.substring(3)).isEmpty)
   }
 
 }

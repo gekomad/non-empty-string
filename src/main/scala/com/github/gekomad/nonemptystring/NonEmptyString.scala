@@ -1,9 +1,10 @@
-package com.github.gekomad.NonEmptyString
+package com.github.gekomad.nonemptystring
 package nonVoidString
 import java.lang.Character._
 
 /**
   * NonEmptyString
+  * @version 0.0.4
   * https://github.com/gekomad/non-empty-string
   * @author Giuseppe Cannella
   */
@@ -43,9 +44,9 @@ class NonVoidString private[nonVoidString] (private val string: String, private 
     else NonBlankString(s"string${aNonVoidString.string}").get
 
   def ==(that: NonVoidString): Boolean = this.equals(that)
-  def ==(that: String): Boolean        = this.equals(that)
+  def ==(that: String): Boolean        = this.string.equals(that)
   def !=(that: NonVoidString): Boolean = !this.equals(that)
-  def !=(that: String): Boolean        = !this.equals(that)
+  def !=(that: String): Boolean        = !this.string.equals(that)
   override def equals(that: Any): Boolean = that match {
     case x: NonVoidString => x.string == this.string
     case x: String        => x == this.string
@@ -125,5 +126,4 @@ class NonVoidString private[nonVoidString] (private val string: String, private 
     if (checkEmpty) NonEmptyString(string.toUpperCase(locale)).get else NonBlankString(string.toUpperCase(locale)).get
   @inline def trim(): Option[NonVoidString] =
     if (checkEmpty) NonEmptyString(string.trim()) else NonBlankString(string.trim())
-
 }

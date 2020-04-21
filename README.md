@@ -21,12 +21,12 @@ a.map(s => assert(s.toString == " "))
  
 ```scala
 val a: Option[NonBlankString] = NonBlankString(" ")  
-assert(a == None)  
+assert(a.isEmpty)  
 ``` 
 
 ```scala
 val a: Option[NonBlankString] = NonBlankString(" \n")  
-assert(a == None)  
+assert(a.isEmpty)  
 ```   
 
 #### Comparing with String  
