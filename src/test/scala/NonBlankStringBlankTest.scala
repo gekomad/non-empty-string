@@ -1,7 +1,6 @@
-import com.github.gekomad.nonemptystring.nonVoidString.{NonBlankString, NonEmptyString}
-import org.scalatest.funsuite.AnyFunSuite
+import com.github.gekomad.nonemptystring.nonVoidString.NonBlankString
 
-class NonBlankStringBlankTest extends AnyFunSuite {
+class NonBlankStringBlankTest extends munit.FunSuite {
 
   test("instantiate test 1") {
     val a: Option[NonBlankString] = NonBlankString(" ")
@@ -34,10 +33,7 @@ class NonBlankStringBlankTest extends AnyFunSuite {
   test("equal 7 test") {
     val a = NonBlankString("foo")
     val b = "foo"
-    a.map { s =>
-      assert(s == b)
-      assert(s == b)
-    }
+    assert(a.contains(b))
   }
 
   test("compare 1 test") {

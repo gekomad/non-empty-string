@@ -1,9 +1,13 @@
 name := "non-empty-string"
 
-version := "0.0.4"
+version := "0.1.0"
 
-scalaVersion := "2.13.1"
+scalaVersion := "3.5.2"
 
-crossScalaVersions := Seq("2.10.7","2.11.12", "2.12.9", "2.13.1")
+crossScalaVersions := Seq("2.12.20", "2.13.15", "3.5.2")
 
-libraryDependencies += "org.scalatest" %% "scalatest" % "3.3.0-SNAP2"  % Test
+libraryDependencies += "org.scalameta" %% "munit" % "1.0.2" % Test
+
+scalacOptions ++= Seq(
+  "-Ywarn-unused"
+)

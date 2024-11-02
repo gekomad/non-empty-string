@@ -13,3 +13,4 @@ target
 .pid
 **/*.log
 *.sc
+.bsp/
